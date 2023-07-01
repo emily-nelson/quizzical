@@ -16,12 +16,13 @@ export default function Quiz(props) {
     const [correctAnswers, setCorrectAnswers] = useState(0);
 
 
+    console.log(quizData)
     console.log(formData)
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple');
+                const response = await axios.get('https://opentdb.com/api.php?amount=5&type=multiple');
                 setQuizData(response.data);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -39,29 +40,24 @@ export default function Quiz(props) {
         return array;
     }
 
+    //SELECTING AN ANSWER
     function handleChange(event) {
         const { name, value } = event.target
+
+        //UNSTYLING OLD ANSWER
+        if (formData[name] != "") {
+            document.getElementById(formData[name].split(" ").join("") + 'Label').className = 'quizAnswerLabel'
+        }
+
+        //STYLING NEW ANSWER AS SELECTED
+        document.getElementById(value.split(" ").join("") + 'Label').className = 'quizAnswerLabelSelected'
+
         setFormData(prevFormData => {
             return {
                 ...prevFormData,
                 [name]: value
             }
         })
-        //HOW TO CHECK FOR CORRECT ANSWER OR NOT
-        let count = 0;
-        for (let i = 0; i < 5; i++) {
-            if (quizData.results[i].correct_answer === formData[i]) {
-                count++;
-            }
-                
-            console.log(quizData.results[i].correct_answer, "CORRECT ANSWER")
-            console.log(formData[i], "PLAYER ANSWER")
-        }
-        console.log(count)
-        setCorrectAnswers(count)
-        console.log(correctAnswers, "correctAnswers")
-
-
     }
 
     const stateObjectLength = Object.keys(quizQuestions).length;
@@ -97,7 +93,7 @@ export default function Quiz(props) {
     const questionsFormatted = quizQuestions.map((question, questionIndex) => {
         return (
             <>
-                <h2>{he.decode(question.title)}</h2>
+                <h2 id={he.decode(question.title.split(" ").join(""))}>{he.decode(question.title)}</h2>
 
                 {question.answers.map((answer) => {
                     return (
@@ -105,12 +101,18 @@ export default function Quiz(props) {
                             <input
                                 type="radio"
                                 id={answer}
+                                className='quizAnswer'
                                 name={questionIndex}
                                 value={answer}
                                 checked={formData[questionIndex] === { answer }}
                                 onChange={handleChange}
                             />
-                            <label htmlFor={answer}>{answer}</label>
+                            <label
+                                id={he.decode(answer.split(" ").join("")) + 'Label'}
+                                htmlFor={answer}
+                                className='quizAnswerLabel'>
+                                {answer}
+                            </label>
                         </>
                     )
                 })}
@@ -122,6 +124,31 @@ export default function Quiz(props) {
     function handleCheckAnswers(e) {
         e.preventDefault()
 
+        //CHECKING QUESTIONS AND ANSWERS
+        let count = 0;
+        for (let i = 0; i < 5; i++) {
+            if (formData[i] != "") {
+                document.getElementById(he.decode(quizQuestions[i].title.split(" ").join(""))).style.color = '#293264'
+                if (he.decode(quizData.results[i].correct_answer) === formData[i]) {
+
+                    document.getElementById(formData[i].split(" ").join("") + 'Label').className = 'quizAnswerLabelCorrect'
+                    count++;
+
+                } else if (he.decode(quizData.results[i].correct_answer) !== formData[i]) {
+
+                    document.getElementById(he.decode(quizData.results[i].correct_answer).split(" ").join("") + 'Label').className = 'quizAnswerLabelCorrect'
+                    document.getElementById(formData[i].split(" ").join("") + 'Label').className = 'quizAnswerLabelIncorrect'
+                }
+
+            } else {
+
+                document.getElementById(he.decode(quizQuestions[i].title.split(" ").join(""))).style.color = 'red'
+
+            }
+
+        }
+
+        setCorrectAnswers(count)
 
     }
 
@@ -130,10 +157,13 @@ export default function Quiz(props) {
         <>
             <form>
                 {questionsFormatted}
-                <button type="submit" onClick={(e) => handleCheckAnswers(e)}>Check Answers</button>
+                <div id='formButtonAndResultsContainer'>
+                    <button className='quizCheckAnswersButton' type="submit" onClick={(e) => handleCheckAnswers(e)}>Check Answers</button>
+                    <div id='quizResults'>You have {correctAnswers}/5 correct!</div>
+                    <button className='quizGoBackButton' onClick={props.toggleQuiz}>Go Back</button>
+                </div>
             </form >
-            <div>You have {correctAnswers}/5 correct!</div>
-            <button onClick={props.toggleQuiz}>Go Back</button>
+
 
 
 
@@ -143,9 +173,7 @@ export default function Quiz(props) {
 }
 
 
-
-// TO DO 
+// TO DO
 //- Style the quiz
-//- When answer is selected, style the button as selected
-//- When the 'check answers' button is selected, style buttons accordingly
+//- When the 'check answers' button is selected, style buttons accordingly and make them unselectable
 //- Learn about React Testing

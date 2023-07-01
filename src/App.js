@@ -16,9 +16,12 @@ function App() {
   return (
 
     //If showQuiz is set to true, the Quiz component is displayed
-    showQuiz 
-    ? <Quiz toggleQuiz={toggleQuiz} showQuiz={showQuiz} /> 
-    : <Home toggleQuiz={toggleQuiz} />
+    <div className='homeContentContainer'>
+      {showQuiz
+      ? <Quiz toggleQuiz={toggleQuiz} showQuiz={showQuiz} />
+      : <Home toggleQuiz={toggleQuiz} />}
+      <img src='https://images.pexels.com/photos/7130546/pexels-photo-7130546.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' />
+    </div>
   );
 }
 

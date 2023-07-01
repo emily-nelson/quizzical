@@ -1,4 +1,133 @@
 body {
-  margin-left: 200px;
+  font-family: 'Karla', sans-serif;
+  color: #293264;
+}
+
+.homeContentContainer {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  z-index: 0;
+}
+
+.homeContentContainer img {
+  position: absolute;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+}
+
+.homeTitle {
+  margin: 0;
+  padding: 20;
+  
+  font-weight: 600;
+  font-size: 2.6em;
+}
+
+h2 {
+  font-family: 'Karla', sans-serif;
+  font-weight: 600;
+  margin-bottom: 17px;
+  margin-top: 40px;
+  font-size: 21px;
+}
+
+.homeDescription {
+  margin: 0;
+  color: #293264;
+  padding: 7px 20px 30px 20px;
+  font-size: 1.2em;
+}
+
+.homeStartQuizButton {
+  background-color: #4D5B9E;
+  color: #F5F7FB;
+  padding: 15px;
+  width: 200px;
+  border-radius: 15px;
+  border: none;
+  font-size: 18px;
+  font-family: 'Karla', sans-serif;
+  cursor: pointer;
+}
+
+.quizAnswer {
+  display: none;
+}
+
+.quizAnswerLabel {
+  border: 1.5px #293264 solid;
+  padding: 7px 20px 7px 20px;
+  margin-right: 20px;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.quizAnswerLabelSelected {
+  border: none;
+  background-color: white;
+  padding: 7px 20px 7px 20px;
+  margin-right: 20px;
+  border-radius: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.quizAnswerLabel:hover {
+  background-color: #efefef;
+}
+
+.quizAnswerLabelCorrect {
+  border: none;
+  background-color: #94D7A2;
+  padding: 7px 20px 7px 20px;
+  margin-right: 20px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.quizAnswerLabelIncorrect {
+  border: none;
+  background-color: #F8BCBC;
+  padding: 7px 20px 7px 20px;
+  margin-right: 20px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+#formButtonAndResultsContainer {
+  margin-top: 30px;
+  display: flex;
+  justify-content:space-between;
+  flex-direction: row;
+}
+
+#quizResults {
+  font-size: 21px;
+}
+
+.quizCheckAnswersButton {
+  border: 1.5px #293264 solid;
+  padding: 7px 20px 7px 20px;
+  margin-right: 20px;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Karla', sans-serif;
+}
+
+.quizGoBackButton {
+  border: 1.5px #293264 solid;
+  padding: 7px 20px 7px 20px;
+  margin-right: 20px;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Karla', sans-serif;
 }
 
